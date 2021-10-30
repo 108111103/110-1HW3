@@ -21,11 +21,10 @@ namespace _110_1HW3
                                               {0,0,0,0,0,0,0,0,0,0},
                                               {0,0,0,0,0,0,0,0,0,0},
                                               {0,0,0,0,0,0,0,0,0,0}};
-            int[] ia_MIndex = new int[10] {0,7,13,28,44,62,74,75,87,90};
+            int[] ia_MIndex = new int[10] { 0, 7, 13, 28, 44, 62, 74, 75, 87, 90 };
 
-            setBomb(ia_Map);
-            search(ia_Map);
-            caBomb(ia_MIndex, ia_Map);
+            caBomb(ia_MIndex, ref ia_Map);
+            Bombmap(ia_Map);
 
             Response.Write("<table  style = 'border:2px solid black; width:30%'>");
             for (int i = 0; i <= 9; i++)
@@ -50,34 +49,16 @@ namespace _110_1HW3
             }
             Response.Write("</table>");
         }
-        public void caBomb(int[] ia_MIndex ,int[,]ia_Map) {
-            int a=0, b = 0;
-            for (int i = 0; i < 9; i++) {
-                a = ia_MIndex[i] / 10;
-                b = ia_MIndex[i] % 10;
-                ia_Map[a, b]=-1;
-            }
-        }
-        public void setBomb(int[,] ia_Map)
+        public void caBomb(int[] ia_MIndex, ref int[,] ia_Map)
         {
-            Random rand = new Random();
-            int count = 0;
-            while (count != 10)
+            for (int i = 0; i < ia_MIndex.Length; i++)
             {
-                if (count != 10) count = 0;
-                int Bomx = rand.Next(0, 9);
-                int Bomy = rand.Next(0, 9);
-                ia_Map[Bomx, Bomy] = -1;
-                for (int i = 0; i <= 9; i++)
-                {
-                    for (int j = 0; j <= 9; j++)
-                    {
-                        if (ia_Map[i, j] == -1) count++;
-                    }
-                }
+                int ia_x = ia_MIndex[i] / 10;
+                int ia_y = ia_MIndex[i] % 10;
+                ia_Map[ia_x, ia_y] = -1;
             }
         }
-        public void search(int[,] ia_Map)
+        public void Bombmap(int[,] ia_Map)
         {
             if (ia_Map[0, 0] == -1)
             {
@@ -85,19 +66,19 @@ namespace _110_1HW3
                 if (ia_Map[1, 0] != -1) ia_Map[1, 0] += 1;
                 if (ia_Map[1, 1] != -1) ia_Map[1, 1] += 1;
             }
-            else if (ia_Map[0, 9] == -1)
+            if (ia_Map[0, 9] == -1)
             {
                 if (ia_Map[0, 8] != -1) ia_Map[0, 8] += 1;
                 if (ia_Map[1, 9] != -1) ia_Map[1, 9] += 1;
                 if (ia_Map[1, 8] != -1) ia_Map[1, 8] += 1;
             }
-            else if (ia_Map[9, 0] == -1)
+            if (ia_Map[9, 0] == -1)
             {
                 if (ia_Map[8, 0] != -1) ia_Map[8, 0] += 1;
                 if (ia_Map[8, 1] != -1) ia_Map[8, 1] += 1;
                 if (ia_Map[9, 1] != -1) ia_Map[9, 1] += 1;
             }
-            else if (ia_Map[9, 9] == -1)
+            if (ia_Map[9, 9] == -1)
             {
                 if (ia_Map[8, 9] != -1) ia_Map[8, 9] += 1;
                 if (ia_Map[8, 8] != -1) ia_Map[8, 8] += 1;
@@ -113,7 +94,7 @@ namespace _110_1HW3
                     if (ia_Map[1, i] != -1) ia_Map[1, i] += 1;
                     if (ia_Map[1, i + 1] != -1) ia_Map[1, i + 1] += 1;
                 }
-                else if (ia_Map[9, i] == -1)
+                if (ia_Map[9, i] == -1)
                 {
                     if (ia_Map[9, i - 1] != -1) ia_Map[9, i - 1] += 1;
                     if (ia_Map[9, i + 1] != -1) ia_Map[9, i + 1] += 1;
@@ -121,7 +102,7 @@ namespace _110_1HW3
                     if (ia_Map[8, i] != -1) ia_Map[8, i] += 1;
                     if (ia_Map[8, i + 1] != -1) ia_Map[8, i + 1] += 1;
                 }
-                else if (ia_Map[i, 0] == -1)
+                if (ia_Map[i, 0] == -1)
                 {
                     if (ia_Map[i - 1, 0] != -1) ia_Map[i - 1, 0] += 1;
                     if (ia_Map[i + 1, 0] != -1) ia_Map[i + 1, 0] += 1;
@@ -129,7 +110,7 @@ namespace _110_1HW3
                     if (ia_Map[i, 1] != -1) ia_Map[i, 1] += 1;
                     if (ia_Map[i + 1, 1] != -1) ia_Map[i + 1, 1] += 1;
                 }
-                else if (ia_Map[i, 9] == -1)
+                if (ia_Map[i, 9] == -1)
                 {
                     if (ia_Map[i - 1, 9] != -1) ia_Map[i - 1, 9] += 1;
                     if (ia_Map[i + 1, 9] != -1) ia_Map[i + 1, 9] += 1;
